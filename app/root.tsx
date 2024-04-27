@@ -4,7 +4,16 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  json,
 } from "@remix-run/react";
+
+export const loader = () => {
+  return json({
+    ENV: {
+      TIMEOUT: ENV.TIMEOUT,
+    },
+  });
+};
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -19,6 +28,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(ENV)}`,
+          }}
+        />
       </body>
     </html>
   );
