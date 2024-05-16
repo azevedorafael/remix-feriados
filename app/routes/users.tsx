@@ -1,17 +1,30 @@
-import { useLoaderData } from '@remix-run/react';
-import { UsersTable, getUsers } from '~/features/Users';
-import { ErrorFeedback } from '~/components';
+import { json, type LoaderFunctionArgs } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
+import { ErrorFeedback } from "~/components";
+import { getUsers, UsersTable } from "~/features/Users";
+import { getLoggedUser } from "~/session.server";
 
-export const loader = async () => {
-  return await getUsers();
-};
+export async function loader({ request }: LoaderFunctionArgs) {
+  const loggedUser = await getLoggedUser(request);
 
-export default function Users() {
-  const users = useLoaderData<typeof loader>();
-
-  return <UsersTable users={users} />
+  return json({ users: await getUsers(), loggedUser });
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
+export default function () {
+  const { users, loggedUser } = useLoaderData<typeof loader>();
+
+  return (
+    <>
+      <header className="flex items-center justify-between p-6 bg-gray-100">
+        <p>Welcome {loggedUser.name}</p>
+        <Link to="/logout">Logout</Link>
+      </header>
+      <UsersTable users={users} />
+    </>
+  );
+}
+
+export function ErrorBoundary() {
+  // Envia o erro para um serviço externo! Ex. Sentry, Bugsnag, etc.
   return <ErrorFeedback />;
 }
