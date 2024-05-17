@@ -7,6 +7,13 @@ import {
   json,
 } from "@remix-run/react";
 
+import type { LinksFunction } from "@remix-run/node";
+import stylesheet from "./tailwind.css";
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
+];
+
 export const loader = () => {
   return json({
     ENV: {
@@ -28,7 +35,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
-        <script src="https://cdn.tailwindcss.com"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(ENV)}`,
