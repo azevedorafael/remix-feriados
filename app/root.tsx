@@ -18,6 +18,7 @@ export const loader = () => {
   return json({
     ENV: {
       TIMEOUT: ENV.TIMEOUT,
+      STRIPE_PUBLIC_KEY: ENV.STRIPE_PUBLIC_KEY,
     },
   });
 };

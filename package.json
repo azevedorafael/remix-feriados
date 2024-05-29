@@ -20,6 +20,8 @@
     "@remix-run/node": "^2.9.1",
     "@remix-run/react": "^2.9.1",
     "@remix-run/serve": "^2.9.1",
+    "@stripe/react-stripe-js": "^2.7.1",
+    "@stripe/stripe-js": "^3.4.1",
     "bcryptjs": "^2.4.3",
     "dinero.js": "^1.9.1",
     "domain-functions": "^2.6.0",
@@ -28,6 +30,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.4",
     "remix-forms": "^2.3.0",
+    "stripe": "^15.8.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
