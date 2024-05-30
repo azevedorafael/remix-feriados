@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { db } from "~/db";
+import bcrypt from "bcryptjs";
 
 export const schema = z.object({
   name: z.string().min(1, { message: "Please provide your name" }).trim(),
@@ -8,6 +9,7 @@ export const schema = z.object({
     .min(1, { message: "Please provide your email" })
     .email({ message: "Please provide a valid email" })
     .trim(),
+  password: z.string().min(1, ({ message: "Please provide a valid password" })).trim(),
   city: z.string().min(1, { message: "Please provide your city" }).trim(),
   state: z.string().min(1, { message: "Please provide your state" }).trim(),
 });
@@ -19,5 +21,6 @@ export async function getUsers() {
 }
 
 export async function saveUser(user: UserInput) {
-  return db.user.create({ data: user });
+  const password = await bcrypt.hash(user.password, 10)
+  return db.user.create({ data: { ...user, password } });
 }

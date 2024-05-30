@@ -50,6 +50,18 @@ const users = useUsersList()
                     </>
                   )}
                 </Field>
+                <Field name="password" label="Password">
+                  {({ Label, Errors }) => (
+                    <>
+                      <Label className="block text-sm font-medium text-gray-700" />
+                      <input
+                        {...register("password")}
+                        className="h-8 mt-1 w-full border border-gray-50 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                      <Errors className="text-red-500 font-bold text-sm antialiased" />
+                    </>
+                  )}
+                </Field>
                 <Field name="city" label="City">
                   {({ Label, Errors }) => (
                     <>
