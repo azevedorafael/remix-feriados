@@ -5,21 +5,27 @@ import {
   Scripts,
   ScrollRestoration,
   json,
+  useLoaderData,
 } from "@remix-run/react";
 
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import stylesheet from "./tailwind.css";
+import { getLoggedUser } from "./session.server";
+import { UserContext } from "./features/Users/context";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
 
-export const loader = () => {
+export async function loader({ request }: LoaderFunctionArgs){
+  // const loggedUser = await getLoggedUser(request)
+
   return json({
     ENV: {
       TIMEOUT: ENV.TIMEOUT,
       STRIPE_PUBLIC_KEY: ENV.STRIPE_PUBLIC_KEY,
     },
+    // loggedUser,
   });
 };
 
@@ -47,5 +53,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const { ENV } = useLoaderData<typeof loader>()
+
+  return (
+    // <UserContext.Provider value={{ loggedUser }}>
+      <Outlet />
+    // </UserContext.Provider>
+  )
 }

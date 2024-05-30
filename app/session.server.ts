@@ -17,6 +17,7 @@ async function getLoggedUser(request: Request) {
   const session = await getSession(request.headers.get("Cookie"));
 
   if (!session.has("user")) {
+    console.log('redirecting')
     throw redirect("/login");
   }
 
