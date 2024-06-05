@@ -11,21 +11,20 @@ import {
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import stylesheet from "./tailwind.css";
 import { getLoggedUser } from "./session.server";
-import { UserContext } from "./features/Users/context";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
 
 export async function loader({ request }: LoaderFunctionArgs){
-  // const loggedUser = await getLoggedUser(request)
+  const loggedUser = await getLoggedUser(request)
 
   return json({
     ENV: {
       TIMEOUT: ENV.TIMEOUT,
       STRIPE_PUBLIC_KEY: ENV.STRIPE_PUBLIC_KEY,
     },
-    // loggedUser,
+    loggedUser,
   });
 };
 
