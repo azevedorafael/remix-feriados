@@ -1,3 +1,4 @@
+import { captureRemixErrorBoundaryError } from "@sentry/remix";
 import {
   Links,
   Meta,
@@ -6,6 +7,7 @@ import {
   ScrollRestoration,
   json,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
 
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
@@ -26,7 +28,7 @@ export async function loader({ request }: LoaderFunctionArgs){
     },
     loggedUser,
   });
-};
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -51,12 +53,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+export const ErrorBoundary = () => {
+  const error = useRouteError();
+  captureRemixErrorBoundaryError(error);
+  return <div>Something went wrong</div>;
+};
+
 export default function App() {
   const { ENV } = useLoaderData<typeof loader>()
 
   return (
     // <UserContext.Provider value={{ loggedUser }}>
-      <Outlet />
     // </UserContext.Provider>
-  )
+    (<Outlet />)
+  );
 }

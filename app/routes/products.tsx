@@ -27,8 +27,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const products = await getProducts();
   const session = await getSession(request.headers.get("Cookie"));
   const cartProducts = session.get("cartProducts") ?? [];
-
-  return json({ products, cartProducts });
+  throw new Error("This is an error")
+  return json({ products, cartProducts });  
 }
 
 export default function () {
